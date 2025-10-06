@@ -7,8 +7,8 @@ import java.util.Map;
 @Service
 public class UserSevice {
     private final Map<String, String> users = Map.of(
-            "admin", "123",
-            "everton", "1234"
+            "jheniffer", "08162814@",
+            "everton", "159123@"
     );
 
     public boolean authenticate(String username, String password) {
