@@ -3,7 +3,7 @@ spring:
     allow-bean-definition-overriding: true
 
   datasource:
-    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/fintrack?useSSL=false&allowPublicKeyRetrieval=true}
+    url: ${JDBC_DATABASE_URL}
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD&99}
     driver-class-name: com.mysql.cj.jdbc.Driver
