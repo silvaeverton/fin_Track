@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Transação - FinTrack</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-save {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .btn-save:hover {
+            background-color: #0069d9;
+        }
+
+        .btn-back {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: #6c757d;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Editar Transação</h2>
+
+    <form th:action="@{'/app/transactions/update/' + ${transactionId}}"
+          th:object="${transactionForm}"
+          method="post"
+          enctype="multipart/form-data">
+
+        <label>Valor</label>
+        <input type="number" step="0.01" th:field="*{value}" required/>
+
+        <label>Data</label>
+        <input type="date" th:field="*{date}" required/>
+
+        <label>Tipo</label>
+        <select th:field="*{type}" class="form-select">
+            <option th:each="item : ${types}" th:value="${item}" th:text="${item.label}"></option>
+        </select>
+
+        <label>Pagamento</label>
+        <select th:field="*{payment}" class="form-select">
+            <option th:each="item : ${payments}" th:value="${item}" th:text="${item.label}"></option>
+        </select>
+
+        <label>Categoria</label>
+        <select th:field="*{category}" class="form-select">
+            <option th:each="item : ${categories}" th:value="${item}" th:text="${item.label}"></option>
+        </select>
+
+        <label>Observação</label>
+        <textarea th:field="*{observation}"></textarea>
+
+        <label>Comprovante (imagem ou PDF)</label>
+        <input type="file" name="file" accept="image/*,application/pdf"/>
+
+        <button type="submit" class="btn-save">Salvar Alterações</button>
+    </form>
+
+    <a th:href="@{/app/transactions}" class="btn-back">⬅ Voltar</a>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

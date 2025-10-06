@@ -1,0 +1,129 @@
+/* ====== ESTILO GLOBAL ====== */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* ====== CONTAINERS ====== */
+.container, .center {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: 40px;
+    width: 95%;
+    max-width: 800px;
+    text-align: center;
+}
+
+/* ====== LOGO ====== */
+.logo {
+    max-width: 120px;
+    margin-bottom: 20px;
+}
+
+/* ====== TITULOS ====== */
+h1, h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ====== FORMULÁRIOS ====== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    text-align: left;
+    margin-top: 10px;
+}
+
+input, select, textarea, button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* ====== BOTÕES ====== */
+button, .btn, a.btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-size: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background: #45a049;
+}
+
+a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #007BFF;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* ====== TABELAS ====== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto;
+    display: block;
+}
+
+th, td {
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+    word-wrap: break-word;
+    max-width: 150px;
+}
+
+th {
+    background: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* ====== MENSAGEM DE SUCESSO ====== */
+.success-message {
+    padding: 12px;
+    background: #dff0d8;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+}
