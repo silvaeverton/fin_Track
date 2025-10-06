@@ -1,0 +1,44 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:mysql://localhost:3306/fintrack?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${MYSQLUSER}
+    password: ${MYSQLPASSWORD&99}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  servlet:
+      multipart:
+         max-file-size: 20MB
+         max-request-size: 30MB
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+              - email
+              - https://www.googleapis.com/auth/drive.file
+            client-name: Google
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
