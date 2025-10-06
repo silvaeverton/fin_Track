@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fintrack
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+      - key: SPRING_DATASOURCE_USERNAME
+        value: ${DATABASE_USER}
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: ${DATABASE_PASSWORD}
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: true
