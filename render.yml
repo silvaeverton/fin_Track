@@ -6,11 +6,15 @@ services:
     autoDeploy: true
     envVars:
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+        value: jdbc:postgresql://dpg-d3i1ssvfte5s73dbb3i0-a.oregon-postgres.render.com:5432/fin_track_525a
       - key: SPRING_DATASOURCE_USERNAME
-        value: ${DATABASE_USER}
+        value: fin_track_525a_user
       - key: SPRING_DATASOURCE_PASSWORD
-        value: ${DATABASE_PASSWORD}
+        value: V3LUSmZDBL4chaM0qHNTDSI2lWy3CzOG
+      - key: key: SPRING_DATASOURCE_DRIVER-CLASS-NAME
+        value: org.postgresql.Driver
+      - key: SPRING_JPA_DATABASE-PLATFORM
+        value: org.hibernate.dialect.PostgreSQLDialect
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
         value: update
       - key: SPRING_JPA_SHOW_SQL
