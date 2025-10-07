@@ -1,5 +1,6 @@
 
-pring:
+
+spring:
   main:
     allow-bean-definition-overriding: true
 
@@ -43,3 +44,9 @@ pring:
             authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
             token-uri: https://oauth2.googleapis.com/token
             user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG
+
