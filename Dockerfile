@@ -1,12 +1,38 @@
-# Etapa 1: build do app
-FROM maven:3.9.2-eclipse-temurin-17 AS builder
+# Etapa 1: Build do projeto usando Maven
+
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
+
+# Copia o arquivo pom.xml e baixa dependências
+
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copia o código fonte
+
+COPY src ./src
+
+# Compila o projeto e gera o JAR
+
 RUN mvn clean package -DskipTests
 
-# Etapa 2: rodar o app
-FROM eclipse-temurin:17-jdk
+# Etapa 2: Imagem final para execução
+
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+
+# Copia o JAR gerado da etapa anterior
+
+COPY --from=build /app/target/*.jar app.jar
+
+# Define a variável de ambiente do Java
+
+ENV JAVA_OPTS=""
+
+# Expõe a porta padrão do Spring Boot
+
 EXPOSE 8080
+
+# Comando para iniciar o app
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
