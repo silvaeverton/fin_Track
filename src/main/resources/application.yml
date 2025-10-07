@@ -6,7 +6,7 @@ spring:
     url: ${JDBC_DATABASE_URL}
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD&99}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
@@ -15,7 +15,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform:org.hibernate.dialect.PostgreSQLDialect
 
   servlet:
       multipart:
