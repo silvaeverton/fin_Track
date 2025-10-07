@@ -1,11 +1,12 @@
-spring:
+
+pring:
   main:
     allow-bean-definition-overriding: true
 
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD&99}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -15,12 +16,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database-platform:org.hibernate.dialect.PostgreSQLDialect
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   servlet:
-      multipart:
-         max-file-size: 20MB
-         max-request-size: 30MB
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 30MB
 
   security:
     oauth2:
