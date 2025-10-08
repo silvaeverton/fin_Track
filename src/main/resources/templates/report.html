@@ -1,167 +1,213 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Relatórios - FinTrack</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+```
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <style>
-        .container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 20px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+<style>
+    body {
+        background-color: #f5f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+        width: 95%;
+        max-width: 1000px;
+        margin: 20px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    input, select, button {
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background: #0069d9;
+    }
+
+    .totals {
+        display: flex;
+        gap: 12px;
+        justify-content: space-around;
+        margin-top: 16px;
+        font-weight: 700;
+        flex-wrap: wrap;
+    }
+
+    .table-responsive {
+        margin-top: 12px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 700px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #eee;
+        text-align: center;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    td {
+        white-space: nowrap;
+    }
+
+    .btn-home {
+        display: block;
+        width: 140px;
+        margin: 20px auto 0;
+        text-align: center;
+        padding: 10px;
+        background: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        margin: 2px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-edit { background: #ffc107; color: #000; }
+    .btn-delete { background: #dc3545; color: #fff; }
+    .btn-view { background: #17a2b8; color: #fff; }
+
+    .no-data {
+        text-align: center;
+        padding: 30px;
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    .no-data i {
+        font-size: 2.5rem;
+        color: #bbb;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        h2 {
+            font-size: 1.3rem;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        .container {
+            padding: 15px;
         }
 
         form {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
         }
 
         input, select, button {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-        }
-
-        button:hover {
-            background: #0069d9;
+            width: 100%;
         }
 
         .totals {
-            display: flex;
-            gap: 12px;
-            justify-content: space-around;
-            margin-top: 16px;
-            font-weight: 700;
-            flex-wrap: wrap;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 12px;
-        }
-
-        th, td {
-            padding: 8px;
-            border: 1px solid #eee;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
+            gap: 6px;
         }
 
-        th {
-            background: #007bff;
-            color: white;
+        table, th, td {
+            font-size: 0.85rem;
         }
 
         .btn-home {
-            display: block;
-            width: 140px;
-            margin: 20px auto 0;
-            text-align: center;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
+            width: 100%;
         }
+    }
+</style>
+```
 
-        .btn {
-            padding: 6px 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin: 2px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-edit { background: #ffc107; color: #000; }
-        .btn-delete { background: #dc3545; color: #fff; }
-        .btn-view { background: #17a2b8; color: #fff; }
-
-        .no-data {
-            text-align: center;
-            padding: 30px;
-            font-size: 1.1rem;
-            color: #666;
-        }
-
-        .no-data i {
-            font-size: 2.5rem;
-            color: #bbb;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            table, th, td {
-                font-size: 0.85rem;
-            }
-
-            form {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            input, select, button {
-                width: 90%;
-            }
-        }
-    </style>
 </head>
 <body>
 <div class="container">
     <h2>Relatórios de Transações</h2>
 
-    <!-- Filtro -->
-    <form th:action="@{/app/transactions}" method="get">
-        <input type="number" name="year" placeholder="Ano (AAAA)"/>
-        <input type="number" name="month" placeholder="Mês (MM)" min="1" max="12"/>
-        <select name="type">
-            <option value="">Todos</option>
-            <option th:each="t : ${types}" th:value="${t}" th:text="${t.getLabel()}"></option>
-        </select>
-        <button type="submit">Filtrar</button>
-    </form>
+```
+<!-- Filtro -->
+<form th:action="@{/app/transactions}" method="get">
+    <input type="number" name="year" placeholder="Ano (AAAA)"/>
+    <input type="number" name="month" placeholder="Mês (MM)" min="1" max="12"/>
+    <select name="type">
+        <option value="">Todos</option>
+        <option th:each="t : ${types}" th:value="${t}" th:text="${t.getLabel()}"></option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
 
-    <!-- Totais -->
-    <div class="totals" th:if="${box != null}">
-        <div>Total de Entradas: <span th:text="${boxTotalEntryFmt}">0,00</span></div>
-        <div>Total de Saídas: <span th:text="${boxTotalExpenseFmt}">0,00</span></div>
-        <div>Caixa: <span th:text="${boxBalanceFmt}">0,00</span></div>
-    </div>
+<!-- Totais -->
+<div class="totals" th:if="${box != null}">
+    <div>Total de Entradas: <span th:text="${boxTotalEntryFmt}">0,00</span></div>
+    <div>Total de Saídas: <span th:text="${boxTotalExpenseFmt}">0,00</span></div>
+    <div>Caixa: <span th:text="${boxBalanceFmt}">0,00</span></div>
+</div>
 
-    <!-- Mensagem caso lista vazia -->
-    <div th:if="${#lists.isEmpty(transactions)}" class="no-data">
-        <i class="bi bi-inbox"></i>
-        Nenhuma transação encontrada.
-    </div>
+<!-- Mensagem caso lista vazia -->
+<div th:if="${#lists.isEmpty(transactions)}" class="no-data">
+    <i class="bi bi-inbox"></i>
+    Nenhuma transação encontrada.
+</div>
 
-    <!-- Lista de transações -->
-    <table th:unless="${#lists.isEmpty(transactions)}" class="table table-striped">
+<!-- Lista de transações -->
+<div class="table-responsive" th:unless="${#lists.isEmpty(transactions)}">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th><th>Valor</th><th>Data</th><th>Tipo</th><th>Pagamento</th><th>Categoria</th><th>Observação</th><th>Comprovante</th><th>Ações</th>
@@ -192,11 +238,16 @@
         </tr>
         </tbody>
     </table>
+</div>
 
-    <a th:href="@{/app/home}" class="btn-home">Voltar</a>
+<a th:href="@{/app/home}" class="btn-home">Voltar</a>
+```
+
 </div>
 
 <!-- Bootstrap JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
