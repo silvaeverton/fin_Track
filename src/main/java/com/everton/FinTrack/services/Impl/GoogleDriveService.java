@@ -22,11 +22,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GoogleDriveService {
 
-    private final OAuth2AuthorizedClientService clientService;
-    private final String folderId = "1iLzI61N8Zxj_ys2BxNs6CLa8qSEkc7bu";
+     private final OAuth2AuthorizedClientService clientService;
+
+    @Value("${google.drive.folder-id:1iLzI61N8Zxj_ys2BxNs6CLa8qSEkc7bu}")
+    private String folderId;
 
     @Async
-    public void uploadFileAsync(MultipartFile file) {
+    public CompletableFuture<String> uploadFileAsync(MultipartFile file) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -36,17 +38,18 @@ public class GoogleDriveService {
                         clientService.loadAuthorizedClient(registrationId, oauthToken.getName());
 
                 if (client == null) {
-                    throw new IllegalStateException("Cliente OAuth2 não encontrado. Verifique se o login com Google foi realizado.");
+                    throw new IllegalStateException("Cliente OAuth2 não encontrado. Faça login com Google.");
                 }
 
                 String accessToken = client.getAccessToken().getTokenValue();
                 String fileId = sendFileToGoogleDrive(file, accessToken);
-                System.out.println("Upload concluído. FileId: " + fileId);
+                return CompletableFuture.completedFuture(fileId);
             } else {
                 throw new IllegalStateException("Usuário não está autenticado via Google.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("❌ Erro no upload assíncrono: " + e.getMessage());
+            return CompletableFuture.failedFuture(e);
         }
     }
 
