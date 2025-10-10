@@ -1,6 +1,6 @@
-package com.seuprojeto.fintrack.service;
+package com.everton.FinTrack.service;
 
-import com.seuprojeto.fintrack.model.Transaction;
+import com.everton.FinTrack.model.Transaction;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
