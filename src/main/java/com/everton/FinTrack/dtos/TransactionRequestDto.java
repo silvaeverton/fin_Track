@@ -1,5 +1,6 @@
 package com.everton.FinTrack.dtos;
 
+import org.springframework.web.multipart.MultipartFile;
 import com.everton.FinTrack.enums.Category;
 import com.everton.FinTrack.enums.MethodPayment;
 import com.everton.FinTrack.enums.Type;
