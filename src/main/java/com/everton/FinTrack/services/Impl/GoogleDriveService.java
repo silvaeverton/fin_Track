@@ -22,26 +22,30 @@ import java.io.IOException;
 public class GoogleDriveService {
 
     private final OAuth2AuthorizedClientService clientService;
-
     private final String folderId = "1iLzI61N8Zxj_ys2BxNs6CLa8qSEkc7bu";
 
-    public String uploadFile(MultipartFile file) throws IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @Async
+    public void uploadFileAsync(MultipartFile file) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
-            String registrationId = oauthToken.getAuthorizedClientRegistrationId();
+            if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+                String registrationId = oauthToken.getAuthorizedClientRegistrationId();
+                OAuth2AuthorizedClient client =
+                        clientService.loadAuthorizedClient(registrationId, oauthToken.getName());
 
-            OAuth2AuthorizedClient client =
-                    clientService.loadAuthorizedClient(registrationId, oauthToken.getName());
+                if (client == null) {
+                    throw new IllegalStateException("Cliente OAuth2 não encontrado. Verifique se o login com Google foi realizado.");
+                }
 
-            if (client == null) {
-                throw new IllegalStateException("Cliente OAuth2 não encontrado. Verifique se o login com Google foi realizado.");
+                String accessToken = client.getAccessToken().getTokenValue();
+                String fileId = sendFileToGoogleDrive(file, accessToken);
+                System.out.println("Upload concluído. FileId: " + fileId);
+            } else {
+                throw new IllegalStateException("Usuário não está autenticado via Google.");
             }
-
-            String accessToken = client.getAccessToken().getTokenValue();
-            return sendFileToGoogleDrive(file, accessToken);
-        } else {
-            throw new IllegalStateException("Usuário não está autenticado via Google.");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
