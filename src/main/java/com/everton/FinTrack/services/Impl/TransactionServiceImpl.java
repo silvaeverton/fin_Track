@@ -1,6 +1,7 @@
 package com.everton.FinTrack.services.Impl;
 
 import com.everton.FinTrack.dtos.BoxSummaryDto;
+import java.util.concurrent.CompletableFuture;
 import com.everton.FinTrack.dtos.TransactionRequestDto;
 import com.everton.FinTrack.dtos.TransactionResponseDto;
 import com.everton.FinTrack.entities.Transaction;
@@ -27,32 +28,40 @@ public class TransactionServiceImpl implements TransactionService {
    private final ReceiptService receiptService; 
 
     @Override
-    public Transaction createTransaction(TransactionRequestDto requestDto, String fileId, String fileUrl) {
-        Transaction transaction = new Transaction();
+   public Transaction createTransaction(TransactionRequestDto requestDto, String fileId, String fileUrl) {
+    Transaction transaction = new Transaction();
 
-        transaction.setObservation(requestDto.getObservation());
-        transaction.setValue(requestDto.getValue());
-        transaction.setType(requestDto.getType());
-        transaction.setCategory(requestDto.getCategory());
-        transaction.setPayment(requestDto.getPayment());
-        transaction.setDate(requestDto.getDate());
+    transaction.setObservation(requestDto.getObservation());
+    transaction.setValue(requestDto.getValue());
+    transaction.setType(requestDto.getType());
+    transaction.setCategory(requestDto.getCategory());
+    transaction.setPayment(requestDto.getPayment());
+    transaction.setDate(requestDto.getDate());
 
-       
-        if (fileId != null) {
-            transaction.setReceiptFileId(fileId);
-            transaction.setReceiptFileUrl(fileUrl);
-        }
+    // Salva imediatamente no banco
+    Transaction savedTransaction = transactionRepository.save(transaction);
 
-        
-        Transaction savedTransaction = transactionRepository.save(transaction);
+    // Se tiver arquivo, faz o upload no Google Drive de forma assíncrona
+    if (requestDto.getFile() != null && !requestDto.getFile().isEmpty()) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                String uploadedFileId = googleDriveService.uploadFile(requestDto.getFile());
+                String driveUrl = googleDriveService.generateDriveFileLink(uploadedFileId);
 
-       
-        if (requestDto.getFile() != null && !requestDto.getFile().isEmpty()) {
-            receiptService.saveReceiptAsync(requestDto.getFile(), savedTransaction);
-        }
+                // Atualiza o registro no banco após o upload
+                savedTransaction.setReceiptFileId(uploadedFileId);
+                savedTransaction.setReceiptFileUrl(driveUrl);
+                transactionRepository.save(savedTransaction);
 
-        return savedTransaction;
+                System.out.println("✅ Upload concluído e transação atualizada: " + uploadedFileId);
+            } catch (Exception e) {
+                System.err.println("❌ Erro ao enviar arquivo para o Drive: " + e.getMessage());
+            }
+        });
     }
+
+    return savedTransaction;
+}
 
     @Override
     public TransactionResponseDto findTransactionById(Long id) {
