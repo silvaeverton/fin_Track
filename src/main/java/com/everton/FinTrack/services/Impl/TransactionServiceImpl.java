@@ -24,8 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final YearSummaryRepository yearSummaryRepository;
-
-
+   private final ReceiptService receiptService; 
 
     @Override
     public Transaction createTransaction(TransactionRequestDto requestDto, String fileId, String fileUrl) {
@@ -38,12 +37,21 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setPayment(requestDto.getPayment());
         transaction.setDate(requestDto.getDate());
 
+       
         if (fileId != null) {
             transaction.setReceiptFileId(fileId);
             transaction.setReceiptFileUrl(fileUrl);
         }
 
-        return transactionRepository.save(transaction);
+        
+        Transaction savedTransaction = transactionRepository.save(transaction);
+
+       
+        if (requestDto.getFile() != null && !requestDto.getFile().isEmpty()) {
+            receiptService.saveReceiptAsync(requestDto.getFile(), savedTransaction);
+        }
+
+        return savedTransaction;
     }
 
     @Override
