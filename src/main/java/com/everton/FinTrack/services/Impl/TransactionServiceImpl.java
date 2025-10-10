@@ -26,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final YearSummaryRepository yearSummaryRepository;
+    private final GoogleDriveService googleDriveService;
    private final ReceiptService receiptService; 
 
     @Override
