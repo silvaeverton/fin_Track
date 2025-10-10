@@ -44,5 +44,6 @@ public class TransactionRequestDto {
 
     private String receiptFileUrl;
 
+      private MultipartFile file;
 
 }
