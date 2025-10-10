@@ -12,6 +12,7 @@ import com.everton.FinTrack.repositories.TransactionRepository;
 import com.everton.FinTrack.repositories.YearSummaryRepository;
 import com.everton.FinTrack.services.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
