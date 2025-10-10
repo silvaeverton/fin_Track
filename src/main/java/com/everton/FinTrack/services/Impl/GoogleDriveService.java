@@ -18,8 +18,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -92,17 +90,12 @@ public class GoogleDriveService {
         return "https://drive.google.com/file/d/" + fileId + "/view?usp=sharing";
     }
 
-    // 🔧 Método compatível com as chamadas antigas (controllers/services)
-    public Map<String, String> uploadFile(MultipartFile file) throws IOException {
+    // 🔧 Método compatível com as chamadas antigas
+    public String uploadFile(MultipartFile file) throws IOException {
         try {
-            // Executa o upload de forma síncrona, usando o método assíncrono internamente
+            // Usa o método assíncrono, mas retorna o link direto
             String fileId = uploadFileAsync(file).join();
-            String fileUrl = generateDriveFileLink(fileId);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("fileId", fileId);
-            response.put("fileUrl", fileUrl);
-            return response;
+            return generateDriveFileLink(fileId);
         } catch (Exception e) {
             throw new IOException("Erro ao enviar arquivo para o Google Drive: " + e.getMessage(), e);
         }
